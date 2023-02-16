@@ -1,4 +1,4 @@
-const core = require('@action/core');
+const core = require('@actions/core');
 const github = require('@actions/github');
 
 try {
