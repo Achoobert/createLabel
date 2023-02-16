@@ -1,0 +1,26 @@
+{
+  "name": "createlabel",
+  "version": "1.0.0",
+  "description": "This is meant to allow a github workflow to create a label in its repo ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Achoobert/createLabel.git"
+  },
+  "keywords": [
+    "github",
+    "action"
+  ],
+  "author": "IsaacSchubert",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Achoobert/createLabel/issues"
+  },
+  "homepage": "https://github.com/Achoobert/createLabel#readme",
+  "dependencies": {
+    "@octokit/action": "^5.0.2"
+  }
+}

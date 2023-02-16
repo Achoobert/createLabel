@@ -15,7 +15,7 @@ jobs:
           script: |
             const labelName = '${{ inputs.label_name }}';
             const labelColor = '${{ inputs.label_color }}';
-            const { Octokit } = require('@octokit/core');
+            const { Octokit } = require('@octokit/action');
             const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
             octokit.request('GET /repos/{owner}/{repo}/labels', {
               owner: context.repo.owner,
