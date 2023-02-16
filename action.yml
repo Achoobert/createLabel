@@ -1,45 +1,15 @@
 name: Add label
 
-on:
-  push:
-    branches:
-      - main
+description: Check if a label exists and create it if not
 
-jobs:
-  add-label:
-    runs-on: ubuntu-latest
-    steps:
-    # Install Node 12
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-      - run: npm install @octokit/action
-      - name: Check if label exists and add it
-        uses: actions/github-script@v6.4.0
-        with:
-          script: |
-            const labelName = '${{ inputs.label_name }}';
-            const labelColor = '${{ inputs.label_color }}';
-            const { Octokit } = require('@octokit/action');
-            const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
-            octokit.request('GET /repos/{owner}/{repo}/labels', {
-              owner: context.repo.owner,
-              repo: context.repo.repo
-            }).then(({ data }) => {
-              const label = data.find(l => l.name === labelName);
-              if (!label) {
-                octokit.request('POST /repos/{owner}/{repo}/labels', {
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: labelName,
-                  color: labelColor
-                }).then((response) => {
-                  console.log(`Label ${response.data.name} created successfully`);
-                });
-              } else {
-                console.log(`Label ${labelName} already exists`);
-              }
-            });
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        id: add-label
+inputs:
+  label_name:
+    description: The name of the label to check or create
+    required: true
+  label_color:
+    description: The color of the label in hex format
+    required: true
+
+runs:
+  using: 'node16'
+  main: 'index.js'
