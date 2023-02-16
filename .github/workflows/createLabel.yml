@@ -9,6 +9,11 @@ jobs:
   add-label:
     runs-on: ubuntu-latest
     steps:
+    # Install Node 12
+      - uses: actions/setup-node@v1
+        with:
+          version: 12
+      - run: npm install @octokit/action
       - name: Check if label exists and add it
         uses: actions/github-script@v6.4.0
         with:
