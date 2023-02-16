@@ -1,0 +1,39 @@
+name: Add label
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  add-label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check if label exists and add it
+        uses: actions/github-script@v6.4.0
+        with:
+          script: |
+            const labelName = '${{ inputs.label_name }}';
+            const labelColor = '${{ inputs.label_color }}';
+            const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
+            octokit.issues.listLabelsForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo
+            }).then(({ data }) => {
+              const label = data.find(l => l.name === labelName);
+              if (!label) {
+                octokit.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelName,
+                  color: labelColor
+                }).then((response) => {
+                  console.log(`Label ${response.data.name} created successfully`);
+                });
+              } else {
+                console.log(`Label ${labelName} already exists`);
+              }
+            });
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        id: add-label
